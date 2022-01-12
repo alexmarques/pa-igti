@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Registro de Consulta</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+
+</head>
+<body>
+<nav class="navbar sticky-top navbar-light bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand text-light" href="#">Registro de Consulta</a>
+    </div>
+</nav>
+<div class="container my-3 col-6">
+
+    <form th:action="@{/cadastrar}" method="POST" th:object="${usuario}">
+        <h1 class="h1 text-center">Faça seu cadatro</h1>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" th:field="*{email}" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nome" name="nome" th:field="*{nome}" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <label for="senha" class="form-label">Password</label>
+            <input type="password" id="senha" name="senha" class="form-control" th:field="*{senha}">
+        </div>
+        <div class="mb-3">
+            <label for="confirmacaoSenha" class="form-label">Repetir Password</label>
+            <input type="password"  class="form-control" th:field="*{confirmacaoSenha}" id="confirmacaoSenha" name="confirmacaoSenha">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    </form>
+
+</div>
+</body>
+</html>
