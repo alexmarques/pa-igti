@@ -8,11 +8,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Registro de Consulta</title>
   <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/sidebars.css}"/>
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
-<nav th:replace="fragments/navbar :: #navbar"></nav>
-<div class="container container-fluid">
-  <h1 class="h1">Registro de Nova Consulta</h1>
-</div>
+  <nav th:replace="fragments/navbar :: #navbar"></nav>
+  <div class="d-flex flex-row">
+    <div>
+      <div th:replace="dashboard :: #dash('consulta')"></div>
+    </div>
+    <div class="p-5">
+      <h1 class="h1">Nova Consulta</h1>
+    </div>
+  </div>
+
+
 </body>
 </html>
