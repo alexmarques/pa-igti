@@ -31,11 +31,24 @@
     <div>
       <div th:replace="dashboard :: #dash('consulta')"></div>
     </div>
-    <div class="p-5">
-      <h1 class="h1">Nova Consulta</h1>
+    <div class="p-5 d-flex flex-row">
+      <div>
+        <h1 class="display-3">Últimas consultas</h1>
+        <ul th:unless="${#lists.isEmpty(consultas)}">
+          <li th:each="consulta : ${consultas}">consulta.nome</li>
+        </ul>
+        <p th:if="${#lists.isEmpty(consultas)}">Não existem consultas</p>
+      </div>
+      <div class="p-5">
+        <button class="btn btn-primary" th:onclick="">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+          </svg>
+          Nova Consulta
+        </button>
+      </div>
     </div>
   </div>
-
-
 </body>
 </html>
