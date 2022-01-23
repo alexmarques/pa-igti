@@ -28,7 +28,7 @@
 <body>
 <nav th:replace="fragments/navbar :: #navbar"></nav>
 <main id="dash" th:fragment="#dash(activeItem)">
-<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-black bg-opacity-75" style="width: 280px; height: 100%;">
+<div class=" p-3 text-white bg-black bg-opacity-75" style="width: 280px; height: 100%;">
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
       <a th:href="@{/dashboard}" class="nav-link text-white" aria-current="page" th:classappend="${activeItem == null} ? 'active'">
@@ -36,7 +36,7 @@
       </a>
     </li>
     <li class="nav-item">
-      <a th:href="@{/consulta/nova}" class="nav-link text-white" th:classappend="${activeItem == 'consulta'} ? 'active'">
+      <a th:href="@{/consultas}" class="nav-link text-white" th:classappend="${activeItem == 'consulta'} ? 'active'">
         Consultas
       </a>
     </li>

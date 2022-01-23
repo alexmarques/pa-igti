@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ReceitaController {
-    @GetMapping("/receita")
+    @GetMapping("/receitas")
     public String receita() {
         return "receita";
     }

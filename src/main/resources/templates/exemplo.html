@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Registro de Consulta</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/sidebars.css}"/>
+</head>
+<body>
+<main>
+  <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a th:href="@{/consultas}" class="nav-link text-white" aria-current="page">
+          Consultas
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          Pacientes
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/receitas}" class="nav-link text-white active">
+          Receitas
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          Recibos
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          Exportar Registros
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <div class="dropdown">
+      <a href="#" class="d-flex align-items-center text-white text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        <strong>mdo</strong>
+      </a>
+    </div>
+  </div>
+  <div class="b-example-divider"></div>
+  <div class="container container-fluid m-2 mt-3">
+    <div class="row">
+      <div class="col">
+        <h1 class="h2">Últimas consultas</h1>
+      </div>
+      <div class="col">
+        <a href="#" class="btn btn-primary float-end">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+          </svg>
+          <span class="m-1">Nova Consulta</span>
+        </a>
+      </div>
+      <hr>
+    </div>
+    <div class="row">
+      <div class="container">
+        <table class="table table-striped">
+          <thead>
+          <th>Nome</th>
+          </thead>
+          <tbody>
+          <td>Fulano</td>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+<script th:src="@{/js/bootstrap.bundle.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/sidebars.js}" type="text/javascript"></script>
+</body>
+</html>

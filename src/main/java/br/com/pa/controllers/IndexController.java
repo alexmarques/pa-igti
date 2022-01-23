@@ -21,7 +21,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String index() {
-        return "dashboard";
+        return "redirect:consultas";
     }
 
     @GetMapping("/login")

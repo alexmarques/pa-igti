@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Registro de Consulta</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fontawesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/solid.min.css}"/>
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -30,12 +32,12 @@
     <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-                <a href="#" class="nav-link active" aria-current="page">
+                <a th:href="@{/consultas}" class="nav-link text-white" aria-current="page">
                     Consultas
                 </a>
             </li>
             <li>
-                <a th:href="@{/pacientes}" class="nav-link text-white">
+                <a href="@{/pacientes}" class="nav-link text-white active">
                     Pacientes
                 </a>
             </li>
@@ -66,34 +68,50 @@
     <div class="container container-fluid m-2 mt-3">
         <div class="row">
             <div class="col">
-                <h1 class="h2">Últimas consultas</h1>
+                <h1 class="h2">Pacientes</h1>
             </div>
             <div class="col">
-                <a href="#" class="btn btn-primary float-end">
+                <a th:href="@{/pacientes/novo}" class="btn btn-primary float-end">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                     </svg>
-                    <span class="m-1">Nova Consulta</span>
+                    <span class="m-1">
+                        Novo Paciente
+                    </span>
                 </a>
             </div>
             <hr>
         </div>
         <div class="row">
             <div class="container">
-            <table class="table table-striped">
-                <thead>
-                    <th>Nome</th>
-                </thead>
-                <tbody>
-                    <td>Fulano</td>
-                </tbody>
-            </table>
+                <table class="table table-striped">
+                    <thead>
+                        <th>Nome</th>
+                        <th>Sexo</th>
+                        <th>Data Nascimento</th>
+                    </thead>
+                    <tbody th:if="${#lists.isEmpty(pacientes)}">
+                        <td colspan="3">Nenhum paciente encontrado.</td>
+                    </tbody>
+                    <tbody th:unless="${#lists.isEmpty(pacientes)}">
+                        <tr data-th-each="paciente : ${pacientes}">
+                            <td data-th-text="${paciente.nome}"></td>
+                            <td data-th-text="${paciente.sexo}"></td>
+                            <td data-th-text="${paciente.dataNascimentoFormatted}"></td>
+                            <td>
+                                <a th:href="@{/pacientes?id=paciente.id}" class="btn btn-danger">
+                                    <i class="fas fa-minus-circle"></i>
+                                    Excluir
+                                </a>
+                                <a th:href="@{/pacientes?id=${paciente.id}}" class="btn btn-success">Editar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </main>
-<script th:src="@{/js/bootstrap.bundle.min.js}" type="text/javascript"></script>
-<script th:src="@{/js/sidebars.js}" type="text/javascript"></script>
 </body>
 </html>
