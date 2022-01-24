@@ -1,16 +1,12 @@
 package br.com.pa.security;
 
 import br.com.pa.model.Usuario;
-import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 
-@Data
 public class UsuarioSistema extends User {
-
-	private static final long serialVersionUID = 1L;
 
 	private Usuario usuario;
 

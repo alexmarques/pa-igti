@@ -4,20 +4,20 @@ import br.com.pa.utils.DateUtils;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Data
-public class Consulta {
+public class Receita {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private LocalDate dataEmissao;
     private String texto;
-    private LocalDateTime createdAt;
     @ManyToOne
     private Paciente paciente;
 
-    public String getCreatedAtFormatted() {
-        return DateUtils.format(this.createdAt);
+    public String getDataEmissaoFormatted() {
+        return DateUtils.format(this.dataEmissao);
     }
 }

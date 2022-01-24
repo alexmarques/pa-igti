@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Registro de Consulta</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fontawesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/solid.min.css}"/>
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -63,18 +65,15 @@
         </div>
     </div>
     <div class="b-example-divider"></div>
-    <div class="container container-fluid m-2 mt-3">
+    <div class="container container-fluid mt-3">
         <div class="row">
             <div class="col">
-                <h1 class="h2">Últimas consultas</h1>
+                <h1 class="h2">Últimas receitas emitidas</h1>
             </div>
             <div class="col">
-                <a href="#" class="btn btn-primary float-end">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                    </svg>
-                    <span class="m-1">Nova Consulta</span>
+                <a th:href="@{/receitas/novo}" class="btn btn-primary float-end">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="m-1">Emitir Nova Receita</span>
                 </a>
             </div>
             <hr>
@@ -83,10 +82,17 @@
             <div class="container">
                 <table class="table table-striped">
                     <thead>
-                    <th>Nome</th>
+                        <th>Paciente</th>
+                        <th>Data Emissão</th>
                     </thead>
-                    <tbody>
-                    <td>Fulano</td>
+                    <tbody th:if="${#lists.isEmpty(receitas)}">
+                        <td colspan="4">Nenhum receita encontrada.</td>
+                    </tbody>
+                    <tbody th:unless="${#lists.isEmpty(receitas)}">
+                        <tr data-th-each="receita : ${receitas}">
+                            <td data-th-text="${receita.paciente.nome}"></td>
+                            <td data-th-text="${receita.getDataEmissaoFormatted()}"></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
