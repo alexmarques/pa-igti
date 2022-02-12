@@ -27,7 +27,7 @@ public class IndexController {
     @GetMapping("/login")
     public String login(@AuthenticationPrincipal User user) {
         if (user != null) {
-            return "redirect:/dashboard";
+            return "redirect:/consultas";
         }
 
         return "login";

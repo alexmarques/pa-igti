@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Registro de Consulta</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fontawesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/solid.min.css}"/>
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/sidebars.css}"/>
+</head>
+<body>
+<main>
+    <div th:replace="fragments/sidebar :: sidebar ('recibos')"></div>
+    <div class="b-example-divider"></div>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col">
+                <h1 class="h2">Recibos</h1>
+            </div>
+            <div class="col">
+                <a th:href="@{/recibos/novo}" class="btn btn-primary float-end">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="m-1">
+                        Novo Recibo
+                    </span>
+                </a>
+            </div>
+            <hr>
+        </div>
+        <div class="row">
+            <table class="table table-striped">
+                <thead>
+                <th>Nome do Paciente</th>
+                <th>Data Emissão</th>
+                <th></th>
+                </thead>
+                <tbody th:if="${#lists.isEmpty(recibos)}">
+                <td colspan="4">Nenhum recibo encontrado.</td>
+                </tbody>
+                <tbody th:unless="${#lists.isEmpty(recibos)}">
+                <tr data-th-each="recibo : ${recibos}">
+                    <td data-th-text="${recibo.paciente.nome}"></td>
+                    <td data-th-text="${recibo.getCreatedAtFormatted()}"></td>
+                    <td>
+                        <form th:action="@{/recibos}" th:method="delete" class="d-inline">
+                            <input type="hidden" name="codigo" id="codigo" th:value="${recibo.id}">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-minus-circle"></i>
+                                Excluir
+                            </button>
+                        </form>
+                        <a th:href="@{/recibos/{codigo}(codigo=${recibo.id})}" class="btn btn-success">
+                            <i class="fas fa-edit"></i>
+                            Editar
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+</body>
+</html>

@@ -29,42 +29,7 @@
 </head>
 <body>
 <main>
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a th:href="@{/consultas}" class="nav-link text-white" aria-current="page">
-                    Consultas
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/pacientes}" class="nav-link text-white">
-                    Pacientes
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/receitas}" class="nav-link text-white active">
-                    Receitas
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link text-white">
-                    Recibos
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link text-white">
-                    Exportar Registros
-                </a>
-            </li>
-        </ul>
-        <hr>
-        <div class="dropdown">
-            <a href="#" class="d-flex align-items-center text-white text-decoration-none" id="dropdownUser1"
-               data-bs-toggle="dropdown" aria-expanded="false">
-                <strong>mdo</strong>
-            </a>
-        </div>
-    </div>
+    <div th:replace="fragments/sidebar :: sidebar ('receitas')"></div>
     <div class="b-example-divider"></div>
     <div class="container container-fluid mt-3">
         <div class="row">

@@ -4,6 +4,8 @@ import br.com.pa.model.Paciente;
 import br.com.pa.model.Sexo;
 import br.com.pa.repository.PacientesRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +22,9 @@ public class PacientesController {
     private final PacientesRepository pacientesRepository;
 
     @GetMapping
-    public ModelAndView pacientes() {
+    public ModelAndView pacientes(@PageableDefault Pageable pageable) {
         ModelAndView mv = new ModelAndView("pacientes/lista");
-        mv.addObject("pacientes", this.pacientesRepository.findAll());
+        mv.addObject("pacientes", this.pacientesRepository.findAll(pageable));
         return mv;
     }
 
@@ -49,17 +51,17 @@ public class PacientesController {
     }
 
     @PutMapping
-    public ModelAndView alterarPaciente(Paciente paciente,
+    public String alterarPaciente(Paciente paciente,
                                         RedirectAttributes attributes) {
         attributes.addAttribute("pacienteMsg", "Cliente alterado com sucesso!");
         this.pacientesRepository.save(paciente);
-        return pacientes();
+        return "redirect:/pacientes";
     }
 
     @DeleteMapping
-    public ModelAndView deletarCliente(HttpServletRequest request) {
+    public String deletarCliente(HttpServletRequest request) {
         Long codigo = Long.valueOf(request.getParameter("codigo"));
         this.pacientesRepository.deleteById(codigo);
-        return pacientes();
+        return "redirect:/pacientes";
     }
 }

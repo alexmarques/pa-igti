@@ -1,15 +1,26 @@
 package br.com.pa.model;
 
+import br.com.pa.PaApplication;
+import com.github.javafaker.Faker;
+import com.github.javafaker.Name;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.apache.commons.text.StringEscapeUtils;
 
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Set;
 
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Paciente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,5 +35,17 @@ public class Paciente {
 
     public String getDataNascimentoFormatted() {
         return DateTimeFormatter.ofPattern("dd/MM/yyyy").format(dataNascimento);
+    }
+
+    public static void main(String[] args) {
+        Faker faker = Faker.instance(Locale.forLanguageTag("pt-BR"));
+        Name name;
+        do {
+            name = faker.name();
+            System.out.println(name.firstName());
+            System.out.println(name.fullName());
+        } while (!name.fullName().equals("Meire Sales"));
+        boolean maleFirstName = PaApplication.isMaleFirstName(name.firstName());
+        System.out.println(maleFirstName);
     }
 }

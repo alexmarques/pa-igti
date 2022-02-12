@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -29,15 +28,15 @@
 </head>
 <body>
 <main>
-    <div th:replace="fragments/sidebar :: sidebar ('pacientes')"></div>
+    <div th:replace="fragments/sidebar :: sidebar ('recibos')"></div>
     <div class="b-example-divider"></div>
     <div class="container mt-3">
         <div class="row">
             <div class="col">
-                <h1 class="h2">Pacientes</h1>
+                <h1 class="h2">Recibos</h1>
             </div>
             <div class="col">
-                <a th:href="@{/pacientes/novo}" class="btn btn-primary float-end">
+                <a th:href="@{/recibos/novo}" class="btn btn-primary float-end">
                     <i class="fas fa-plus-circle"></i>
                     <span class="m-1">
                         Novo Paciente
@@ -49,33 +48,33 @@
         <div class="row">
             <table class="table table-striped">
                 <thead>
-                    <th>Nome</th>
-                    <th>Sexo</th>
-                    <th>Data Nascimento</th>
-                    <th></th>
+                <th>Nome</th>
+                <th>Sexo</th>
+                <th>Data Nascimento</th>
+                <th></th>
                 </thead>
                 <tbody th:if="${#lists.isEmpty(pacientes)}">
-                    <td colspan="4">Nenhum paciente encontrado.</td>
+                <td colspan="4">Nenhum paciente encontrado.</td>
                 </tbody>
                 <tbody th:unless="${#lists.isEmpty(pacientes)}">
-                    <tr data-th-each="paciente : ${pacientes}">
-                        <td data-th-text="${paciente.nome}"></td>
-                        <td data-th-text="${paciente.sexo}"></td>
-                        <td data-th-text="${paciente.dataNascimentoFormatted}"></td>
-                        <td>
-                            <form th:action="@{/pacientes}" th:method="delete" class="d-inline">
-                                <input type="hidden" name="codigo" id="codigo" th:value="${paciente.id}">
-                                <button type="submit" class="btn btn-danger">
-                                    <i class="fas fa-minus-circle"></i>
-                                    Excluir
-                                </button>
-                            </form>
-                            <a th:href="@{/pacientes/{codigo}(codigo=${paciente.id})}" class="btn btn-success">
-                                <i class="fas fa-edit"></i>
-                                Editar
-                            </a>
-                        </td>
-                    </tr>
+                <tr data-th-each="paciente : ${pacientes}">
+                    <td data-th-text="${paciente.nome}"></td>
+                    <td data-th-text="${paciente.sexo}"></td>
+                    <td data-th-text="${paciente.dataNascimentoFormatted}"></td>
+                    <td>
+                        <form th:action="@{/pacientes}" th:method="delete" class="d-inline">
+                            <input type="hidden" name="codigo" id="codigo" th:value="${paciente.id}">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-minus-circle"></i>
+                                Excluir
+                            </button>
+                        </form>
+                        <a th:href="@{/pacientes/{codigo}(codigo=${paciente.id})}" class="btn btn-success">
+                            <i class="fas fa-edit"></i>
+                            Editar
+                        </a>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>

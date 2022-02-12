@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Registro de Consulta</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fontawesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/solid.min.css}"/>
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/sidebars.css}"/>
+</head>
+<body>
+<main>
+    <div th:replace="fragments/sidebar :: sidebar ('exportarRegistros')"></div>
+    <div class="b-example-divider">
+
+    </div>
+
+    <div class="container mt-3">
+
+        <div class="row">
+            <div class="col">
+                <h1 class="h2">Exportação de Registros</h1>
+            </div>
+            <hr>
+        </div>
+        <div class="row">
+            <form th:action="@{/exportar}" th:method="post">
+                <div class="mb-3">
+                    <label for="pacienteId" class="form-label">Paciente</label>
+                    <select class="form-select" id="pacienteId" name="pacienteId">
+                        <option value="">-- Todos --</option>
+                        <option th:each="paciente : ${pacientes}"
+                                th:value="${paciente.id}"
+                                th:text="${paciente.nome}"></option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col">
+                            <label for="dataInicial" class="form-label">Data Inicial</label>
+                            <input type="text" class="form-control" placeholder="Data Inical" aria-label="Data Inical" id="dataInicial" name="dataInicial">
+                        </div>
+                        <div class="col">
+                            <label for="dataFinal" class="form-label">Data Final</label>
+                            <input type="text" class="form-control" placeholder="Data Final" aria-label="Data Final" id="dataFinal" name="dataFinal">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Exportar</button>
+            </form>
+
+        </div>
+    </div>
+</main>
+</body>
+</html>

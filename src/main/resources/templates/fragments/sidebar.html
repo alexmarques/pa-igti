@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;" th:fragment="sidebar(pagina)">
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a th:href="@{/consultas}" class="nav-link text-white" aria-current="page" th:classappend="${pagina == 'consultas'}? 'active'">
+                Consultas
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/pacientes}" class="nav-link text-white" th:classappend="${pagina == 'pacientes'}? 'active'">
+                Pacientes
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/receitas}" class="nav-link text-white" th:classappend="${pagina == 'receitas'}? 'active'">
+                Receitas
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/recibos}" class="nav-link text-white" th:classappend="${pagina == 'recibos'}? 'active'">
+                Recibos
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/exportar}" class="nav-link text-white" th:classappend="${pagina == 'exportarRegistros'}? 'active'">
+                Exportar Registros
+            </a>
+        </li>
+    </ul>
+    <hr>
+    <div class="dropdown">
+        <a href="#" class="d-flex align-items-center text-white text-decoration-none" id="dropdownUser1"
+           data-bs-toggle="dropdown" aria-expanded="false">
+            <strong th:text="${#authentication.principal.usuario.nome}">Usuário</strong>
+        </a>
+    </div>
+</div>
+</html>
