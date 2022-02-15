@@ -1,9 +1,12 @@
 package br.com.pa.services;
 
+import br.com.pa.dtos.ConsultaId;
+import br.com.pa.dtos.PacienteId;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
@@ -30,15 +33,13 @@ import java.util.stream.Collectors;
 @Service
 public class LuceneIndexerService {
 
-    private static final Path indexPath = Path.of("C:\\Users\\Alex\\lucene_index_dir");
-    private static final Analyzer analyzer = new PortugueseAnalyzer();
+    public static final String CONSULTA_ID_FIELD_NAME = "consultaId";
+    public static final String PACIENTE_ID_FIELD_NAME = "pacienteId";
+    public static final String TEXTO_FIELD_NAME = "content";
 
-    public static void main(String[] args) throws IOException, ParseException {
-        LuceneIndexerService indexerService = new LuceneIndexerService();
-        indexerService.write("eu gosto de pizza");
-        List<Document> documents = indexerService.read("pizza");
-        documents.forEach(System.out::println);
-    }
+    private static final Path INDEX_PATH = Path.of("C:\\Users\\Alex\\lucene_index_dir");
+    private static final Analyzer PORTUGUESE_ANALYZER = new PortugueseAnalyzer();
+    private static final QueryParser PARSER = new QueryParser(TEXTO_FIELD_NAME, PORTUGUESE_ANALYZER);
 
     private Document readDoc(int docId, DirectoryReader directory) {
         try {
@@ -50,14 +51,12 @@ public class LuceneIndexerService {
     }
 
     public List<Document> read(String term) throws IOException, ParseException {
-        Directory directory = FSDirectory.open(indexPath);
+        Directory directory = FSDirectory.open(INDEX_PATH);
         DirectoryReader directoryReader = DirectoryReader.open(directory);
         IndexSearcher searcher = new IndexSearcher(directoryReader);
-        QueryParser parser = new QueryParser("content", analyzer);
-        Query query = parser.parse(term);
+        Query query = PARSER.parse(term);
         TopDocs docs = searcher.search(query, 50);
         List<Document> contents = Arrays.stream(docs.scoreDocs)
-//                .filter(doc -> doc.score > 0.9)
                 .map(doc -> this.readDoc(doc.doc, directoryReader))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
@@ -66,9 +65,13 @@ public class LuceneIndexerService {
         return contents;
     }
 
-    private String highlight(Highlighter highlighter, List<IndexableField> field) {
+    public Query getQueryForTerm(String term) throws ParseException {
+        return PARSER.parse(term);
+    }
+
+    public String highlight(Highlighter highlighter, IndexableField field) {
         try {
-            return highlighter.getBestFragment(analyzer, "content", field.toString());
+            return highlighter.getBestFragment(PORTUGUESE_ANALYZER, TEXTO_FIELD_NAME, field.stringValue());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InvalidTokenOffsetsException e) {
@@ -77,15 +80,16 @@ public class LuceneIndexerService {
         return "";
     }
 
-    public long write(String text) throws IOException {
-        FSDirectory directory = FSDirectory.open(indexPath);
-        IndexWriterConfig config = new IndexWriterConfig(analyzer);
+    public void write(ConsultaId consultaId, PacienteId pacienteId, String text) throws IOException {
+        FSDirectory directory = FSDirectory.open(INDEX_PATH);
+        IndexWriterConfig config = new IndexWriterConfig(PORTUGUESE_ANALYZER);
         Document document = new Document();
-        document.add(new TextField("content", text, Field.Store.YES));
+        document.add(new StoredField(CONSULTA_ID_FIELD_NAME, consultaId.getId()));
+        document.add(new StoredField(PACIENTE_ID_FIELD_NAME, pacienteId.getId()));
+        document.add(new TextField(TEXTO_FIELD_NAME, text, Field.Store.YES));
         IndexWriter writer = new IndexWriter(directory, config);
-        long id = writer.addDocument(document);
+        writer.addDocument(document);
         writer.close();
         directory.close();
-        return id;
     }
 }

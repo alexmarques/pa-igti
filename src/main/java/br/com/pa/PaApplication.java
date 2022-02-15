@@ -7,8 +7,11 @@ import br.com.pa.model.Usuario;
 import br.com.pa.repository.ConsultaRepository;
 import br.com.pa.repository.PacientesRepository;
 import br.com.pa.repository.UsuarioRepository;
+import br.com.pa.services.ConsultaService;
+import br.com.pa.services.LuceneIndexerService;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
+import lombok.extern.log4j.Log4j2;
 import lombok.val;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.boot.CommandLineRunner;
@@ -36,6 +39,7 @@ import static java.util.Arrays.*;
 @SpringBootApplication
 @EnableFeignClients
 @EnableSpringDataWebSupport
+@Log4j2
 public class PaApplication {
 
     public static void main(String[] args) {
@@ -45,7 +49,7 @@ public class PaApplication {
     @Bean
     public CommandLineRunner runner(UsuarioRepository usuarioRepository,
                                     PacientesRepository pacientesRepository,
-                                    ConsultaRepository consultaRepository,
+                                    ConsultaService consultaService,
                                     PasswordEncoder passwordEncoder) {
         return args -> {
 
@@ -77,13 +81,15 @@ public class PaApplication {
 
                     Date dataConsulta = faker.date().past(5 * 30, TimeUnit.DAYS);
 
+                    String texto = faker.lorem().fixedString(100);
+
                     Consulta consulta = Consulta.builder()
-                            .texto(faker.lorem().characters(100))
+                            .texto(texto)
                             .createdAt(LocalDateTime.ofInstant(dataConsulta.toInstant(), ZoneId.systemDefault()))
                             .paciente(pacienteSalvo)
                             .build();
 
-                    consultaRepository.save(consulta);
+                    consultaService.salvar(consulta);
                 }
             }
         };

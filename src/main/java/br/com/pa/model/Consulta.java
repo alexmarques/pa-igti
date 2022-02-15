@@ -20,7 +20,6 @@ public class Consulta {
     private Long id;
     private String texto;
     private LocalDateTime createdAt;
-    private Long documentId;
     @ManyToOne
     private Paciente paciente;
 
