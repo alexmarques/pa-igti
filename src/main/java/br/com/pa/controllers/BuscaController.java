@@ -1,18 +1,22 @@
 package br.com.pa.controllers;
 
 import br.com.pa.dtos.ResultadoBuscaPorTermo;
+import br.com.pa.lucene.CustomFormatter;
 import br.com.pa.model.Paciente;
 import br.com.pa.repository.PacientesRepository;
-import br.com.pa.services.ConsultaService;
 import br.com.pa.services.LuceneIndexerService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.highlight.Formatter;
 import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.QueryScorer;
+import org.apache.lucene.search.highlight.SpanGradientFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +35,6 @@ public class BuscaController {
 
     private final PacientesRepository pacientesRepository;
     private final LuceneIndexerService indexerService;
-    private final ConsultaService consultaService;
 
     @GetMapping
     public String busca(Model model) {
@@ -45,29 +48,38 @@ public class BuscaController {
         List<Document> documentos = this.indexerService.read(termo);
         Query query = this.indexerService.getQueryForTerm(termo);
         QueryScorer scorer = new QueryScorer(query);
-        Highlighter highlighter = new Highlighter(scorer);
+        Highlighter highlighter = new Highlighter(LuceneIndexerService.CUSTOM_FORMATTER, scorer);
         if(pacienteId.isPresent()) {
-            Paciente paciente = this.pacientesRepository.findById(pacienteId.get()).get();
             List<ResultadoBuscaPorTermo> resultados = documentos.stream()
                     .filter(document -> this.isSamePaciente(document, pacienteId.get()))
-                    .map(document -> {
-                        IndexableField consultaId = document.getField(LuceneIndexerService.CONSULTA_ID_FIELD_NAME);
-                        IndexableField texto = document.getField(LuceneIndexerService.TEXTO_FIELD_NAME);
-                        return new ImmutablePair(consultaId, texto);
-                    })
-                    .map(pair -> {
-                        IndexableField texto = IndexableField.class.cast(pair.getRight());
-                        String highlight = this.indexerService.highlight(highlighter, texto);
-                        long consultaId = IndexableField.class.cast(pair.getLeft()).numericValue().longValue();
-                        return new ResultadoBuscaPorTermo(paciente.getNome(), consultaId, highlight);
-                    }).collect(Collectors.toList());
+                    .map(this::getTriple)
+                    .map(triple -> getResultadoBuscaPorTermo(highlighter, triple))
+                    .collect(Collectors.toList());
             model.addAttribute("resultados", resultados);
             return "busca";
         } else {
-
+            List<ResultadoBuscaPorTermo> resultados = documentos.stream()
+                    .map(this::getTriple)
+                    .map(triple -> getResultadoBuscaPorTermo(highlighter, triple))
+                    .collect(Collectors.toList());
+            model.addAttribute("resultados", resultados);
         }
-        // vou precisar nome do paciente, id da consulta e o texto destacado
         return "busca";
+    }
+
+    private ResultadoBuscaPorTermo getResultadoBuscaPorTermo(Highlighter highlighter, ImmutableTriple<IndexableField, IndexableField, IndexableField> triple) {
+        IndexableField texto = IndexableField.class.cast(triple.getMiddle());
+        String highlight = this.indexerService.highlight(highlighter, texto);
+        long consultaId = IndexableField.class.cast(triple.getLeft()).numericValue().longValue();
+        String pacienteNome = triple.getRight().stringValue();
+        return new ResultadoBuscaPorTermo(pacienteNome, consultaId, highlight);
+    }
+
+    private ImmutableTriple<IndexableField, IndexableField, IndexableField> getTriple(Document document) {
+        IndexableField consultaId = document.getField(LuceneIndexerService.CONSULTA_ID_FIELD_NAME);
+        IndexableField texto = document.getField(LuceneIndexerService.TEXTO_FIELD_NAME);
+        IndexableField pacienteNome = document.getField(LuceneIndexerService.PACIENTE_NOME_FIELD_NAME);
+        return new ImmutableTriple<>(consultaId, texto, pacienteNome);
     }
 
     private boolean isSamePaciente(Document document, Long pacienteId) {

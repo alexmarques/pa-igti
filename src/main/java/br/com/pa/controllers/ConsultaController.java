@@ -10,6 +10,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
 
@@ -54,5 +55,13 @@ public class ConsultaController {
     public String excluir(@PathVariable Long codigo) {
         this.consultaService.deleteById(codigo);
         return "redirect:/consultas";
+    }
+
+    @GetMapping("/{codigo}")
+    public ModelAndView editar(@PathVariable Long codigo) {
+        ModelAndView mw = new ModelAndView("consultas/editar");
+        Consulta consulta = this.consultaService.findById(codigo);
+        mw.addObject("consulta", consulta);
+        return mw;
     }
 }

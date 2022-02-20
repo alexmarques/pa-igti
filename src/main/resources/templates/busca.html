@@ -35,7 +35,6 @@
     </div>
 
     <div class="container mt-3">
-
         <div class="row">
             <div class="col">
                 <h1 class="h2">Busca por Termos</h1>
@@ -64,11 +63,11 @@
                 <button type="submit" class="btn btn-primary">Buscar</button>
             </form>
         </div>
-        <div class="row mt-3" th:unless="${#lists.isEmpty(resultados)}">
+        <div class="row mt-3" style="overflow-y: scroll; height: 60%;" th:unless="${#lists.isEmpty(resultados)}">
             <div class="card mb-3" th:each="resultado : ${resultados}">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${resultado.nomePaciente}">Nome do Paciente</h5>
-                    <p class="card-text" th:text="${#strings.escapeJavaScript(resultado.texto)}">Texto.</p>
+                    <p class="card-text" th:utext="${resultado.texto}">Texto.</p>
                     <a th:href="@{/consultas/{id}(id=${resultado.consultaId})}" class="btn btn-primary">Visualizar</a>
                 </div>
             </div>

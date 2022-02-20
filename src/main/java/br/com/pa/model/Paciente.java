@@ -30,7 +30,7 @@ public class Paciente {
     private Sexo sexo;
     private LocalDate dataNascimento;
     private String observacoes;
-    @OneToMany(mappedBy = "paciente")
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
     private Set<Consulta> consultas;
 
     public String getDataNascimentoFormatted() {

@@ -49,8 +49,8 @@
                     <th>Paciente</th>
                     <th>Data da Consulta</th>
                     <th>
-                        <select class="form-control" th:onchange="onChangePaciente(this)">
-                            <option>-- Todos --</option>
+                        <select class="form-select" th:onchange="onChangePaciente(this)">
+                            <option value="">-- Todos --</option>
                             <option th:each="paciente : ${pacientes}"
                                     th:value="${paciente.id}"
                                     th:text="${paciente.nome}"

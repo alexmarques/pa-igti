@@ -36,11 +36,17 @@ public class ExportarRegistrosController {
     }
 
     @PostMapping
-    public @ResponseBody byte[] exportar(Long pacienteId,
-                    Optional<String> dataInicial,
-                    Optional<String> dataFinal,
-                    HttpServletResponse response) throws IOException {
-        List<Consulta> consultas = this.consultaRepository.findAllByPacienteId(pacienteId);
+    public @ResponseBody byte[] exportar(Optional<Long> pacienteId, HttpServletResponse response) {
+        if(pacienteId.isPresent()) {
+            List<Consulta> consultas = this.consultaRepository.findAllByPacienteId(pacienteId.get());
+            return exportarArquivo(consultas, response);
+        } else {
+            List<Consulta> consultas = this.consultaRepository.findAll();
+            return exportarArquivo(consultas, response);
+        }
+    }
+
+    private byte[] exportarArquivo(List<Consulta> consultas, HttpServletResponse response) {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         consultas.stream().map(consulta -> {
             StringBuilder builder = new StringBuilder();

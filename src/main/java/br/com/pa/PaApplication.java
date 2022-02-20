@@ -50,8 +50,11 @@ public class PaApplication {
     public CommandLineRunner runner(UsuarioRepository usuarioRepository,
                                     PacientesRepository pacientesRepository,
                                     ConsultaService consultaService,
-                                    PasswordEncoder passwordEncoder) {
+                                    PasswordEncoder passwordEncoder,
+                                    LuceneIndexerService indexerService) {
         return args -> {
+
+            indexerService.clearIndexDirectory();
 
             Usuario usuario = new Usuario();
             usuario.setEmail("email@email.com");
