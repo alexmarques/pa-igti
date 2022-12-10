@@ -1,6 +1,5 @@
 package br.com.pa.model;
 
-import br.com.pa.utils.DateUtils;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,8 +15,4 @@ public class Receita {
     private String texto;
     @ManyToOne
     private Paciente paciente;
-
-    public String getDataEmissaoFormatted() {
-        return DateUtils.format(this.dataEmissao);
-    }
 }
