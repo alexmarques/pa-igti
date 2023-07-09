@@ -3,14 +3,12 @@ package br.com.pa.model;
 import br.com.pa.PaApplication;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.text.StringEscapeUtils;
 
-import javax.persistence.*;
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;

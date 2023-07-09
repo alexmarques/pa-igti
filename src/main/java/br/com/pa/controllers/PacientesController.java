@@ -3,6 +3,7 @@ package br.com.pa.controllers;
 import br.com.pa.model.Paciente;
 import br.com.pa.model.Sexo;
 import br.com.pa.repository.PacientesRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -11,8 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/pacientes")
@@ -53,7 +52,7 @@ public class PacientesController {
     @PutMapping
     public String alterarPaciente(Paciente paciente,
                                         RedirectAttributes attributes) {
-        attributes.addAttribute("pacienteMsg", "Cliente alterado com sucesso!");
+        attributes.addFlashAttribute("pacienteMsg", "Cliente alterado com sucesso!");
         this.pacientesRepository.save(paciente);
         return "redirect:/pacientes";
     }

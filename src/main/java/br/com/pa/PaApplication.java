@@ -4,40 +4,29 @@ import br.com.pa.model.Consulta;
 import br.com.pa.model.Paciente;
 import br.com.pa.model.Sexo;
 import br.com.pa.model.Usuario;
-import br.com.pa.repository.ConsultaRepository;
 import br.com.pa.repository.PacientesRepository;
 import br.com.pa.repository.UsuarioRepository;
 import br.com.pa.services.ConsultaService;
 import br.com.pa.services.LuceneIndexerService;
 import com.github.javafaker.Faker;
-import com.github.javafaker.Name;
 import lombok.extern.log4j.Log4j2;
-import lombok.val;
-import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.unbescape.css.CssStringEscapeLevel;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import static java.util.Arrays.*;
+import static java.util.Arrays.stream;
 
 @SpringBootApplication
-@EnableFeignClients
 @EnableSpringDataWebSupport
 @Log4j2
 public class PaApplication {

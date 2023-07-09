@@ -32,6 +32,7 @@
     <div th:replace="fragments/sidebar :: sidebar ('pacientes')"></div>
     <div class="b-example-divider"></div>
     <div class="container mt-3">
+        <div th:if="${!#strings.isEmpty(pacienteMsg)}" th:text="${pacienteMsg}"></div>
         <div class="row">
             <div class="col">
                 <h1 class="h2">Pacientes</h1>
